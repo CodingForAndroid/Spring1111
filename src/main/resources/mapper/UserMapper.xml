@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <!--自定义返回结果  右边是实体类的变量，左边是数据库字段-->
+    <resultMap id="baseResult" type="com.example.demo.entity.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="age" jdbcType="VARCHAR" property="age"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+    </resultMap>
+
+    <select id="getUserInfoByName" parameterType="java.lang.String" resultMap="baseResult">
+		select * from user where name = #{userName}
+    </select>
+
+    <select id="updateUserInfo" parameterType="com.example.demo.entity.User">
+       update user
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="age != null">age=#{age},</if>
+        </set>
+        where email=#{email}
+    </select>
+
+
+</mapper>
