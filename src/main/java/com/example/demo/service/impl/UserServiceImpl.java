@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2018-11-01
  */
 @Service
-public abstract class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public  class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     /**
      * 添加数据
@@ -52,14 +52,33 @@ public abstract class UserServiceImpl extends ServiceImpl<UserMapper, User> impl
     }
 
     @Override
-    public List<User> getUsersByPage(int current ,int size) {
-        Page<User> page = new Page<>(current, size);
-        IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<User>().eq("age", 20));
-//        Assert.assertSame(userIPage, page);
+    public List<User> getUsersByPage(int age,long current ,int size) {
+//        Page<User> page = new Page<>(current, size);
+//        IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<User>().eq("age", 2019));
+////        Assert.assertSame(userIPage, page);
+//        System.out.println("总条数 ------> " + userIPage.getTotal());
+//        System.out.println("当前页数 ------> " + userIPage.getCurrent());
+//        System.out.println("当前每页显示数 ------> " + userIPage.getSize());
+////        print(userIPage.getRecords());
+//        return  userIPage.getRecords();
+
+        /**
+         * 添加约束条件，同时分页
+         */
+        IPage<User> page = new Page<User>(current,size);
+        QueryWrapper<User> wrapper = new QueryWrapper<User>().like("age",age);
+        IPage<User> userIPage = userMapper.selectPage(page, wrapper);
         System.out.println("总条数 ------> " + userIPage.getTotal());
         System.out.println("当前页数 ------> " + userIPage.getCurrent());
         System.out.println("当前每页显示数 ------> " + userIPage.getSize());
-//        print(userIPage.getRecords());
-        return  userIPage.getRecords();
+        return userIPage.getRecords();
+
+
+    }
+
+    @Override
+    public void unregister(String  userid) {
+       userMapper.delete(new QueryWrapper<User>()
+                .lambda().eq(User::getId, userid));
     }
 }

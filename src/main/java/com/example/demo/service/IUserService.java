@@ -21,5 +21,9 @@ public interface IUserService extends IService<User> {
 
     void  updateUserInfo(User user);
 
-    List<User> getUsersByPage(int current ,int size);
+    List<User> getUsersByPage(int age,long current ,int size);
+
+   void  unregister(String userid);
+
+
 }

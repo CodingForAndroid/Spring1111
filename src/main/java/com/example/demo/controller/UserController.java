@@ -16,13 +16,13 @@ public class UserController {
     @Autowired
     IUserService iUserService;
 
-    @RequestMapping(value = "/testController",method = RequestMethod.GET)
+    @RequestMapping(value = "testController",method = RequestMethod.GET)
     public String testController(){
 
         return "testController";
     }
     /**
-     * 注册（C）
+     * 注册 增（C）
      * @param user
      */
     @ResponseBody
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     /**
-     * 查询（R）
+     * 分页查询（R）
      * @param current
      * @param size
      * @return
@@ -63,10 +63,18 @@ public class UserController {
     @ResponseBody
     @PostMapping(value = "getUsersByPage")
     public List<User>  getUsersByPage(int current,int size){
-        List<User> users = iUserService.getUsersByPage(current,size);
+        List<User> users = iUserService.getUsersByPage( 2019, current , size);
         return users;
     }
 
+    //删除（d）
+    @ResponseBody
+    @PostMapping(value = "unregister")
+    public String unregister(String userid){
 
+        iUserService.unregister(userid);
+
+        return "unregister";
+    }
 
 }
